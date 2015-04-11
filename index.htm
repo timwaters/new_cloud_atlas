@@ -1,49 +1,107 @@
-<html>
-  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-  <script src="/js/leaflet-hash.js"></script>
-  <style>
-    body{margin:0px;}
-    #map { height:100%; }
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="js/leaflet-hash.js"></script>
+    <script src="js/leaflet.utfgrid.js"></script>
+    
+    <style>
+      body{margin:0px;}
+      #map { height:100%; }
+    </style>
+    
+    <script type="text/javascript">
 
-  </style>
-  <script type="text/javascript">
-
-    var map;
-
-    function initmap() {
-      // set up the map
-      map = new L.Map('map');
-
-      var hash = new L.Hash(map);
-      // create the tile layer with correct attribution
-      var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-      var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
-      var osm = new L.TileLayer(osmUrl, {minZoom: 3, maxZoom: 19, attribution: osmAttrib, opacity:0.5});		
-
-      var cloudUrl = '/tiles/tiles.py/cloud/{z}/{x}/{y}.png';
-      var cloud = new L.TileLayer(cloudUrl, {tms:false,minZoom: 3, maxZoom: 19, attribution: osmAttrib});
-
-      var xrayUrl = '/tiles/tiles.py/xray-cloud/{z}/{x}/{y}.png';
-      var xray = new L.TileLayer(xrayUrl, {tms:false,minZoom: 3, maxZoom: 19, attribution: osmAttrib});
-
-      map.setView(new L.LatLng(39.8, -30.6),3);
-      map.addLayer(osm);
-      map.addLayer(cloud);
-
-      var overlayMaps = {
-        "Cloud Map": cloud,
-        "Cloud XRay Map": xray
-      };
-      var basemaps = {
-        "OSM": osm
+      var map;
+      
+      var layerDefs = {
+        "towers": "Telecoms Tower or Mast",
+        "mast": "Telecoms Tower or Mast",
+        "submarine_cable":"Submarine Cable",
+        "tele_exchange_points": "Telephone Exchange",
+        "tele_exchange_buildings":"Telephone Exchange",
+        "tele_exchange_buildings_scaled": "Telephone Exchange",
+        "data_centre": "Data Centre",
+        "data_centre_scaled": "Data Centre",
+        "tele_office": "Telecoms Office",
+        "tele_office_scaled": "Telecoms Office"
       }
-      L.control.layers(basemaps, overlayMaps,{collapsed:false}).addTo(map);
-    }
+        
+        //makes text from utfgrid data 
+      function popupHtml(data){
+        var layerName = layerDefs[data.layer_id];
+        var name = data.name || "unknown";
+        var operator = data.operator || "unknown";
+        var html = "<div class='popup'><h4>"+layerName+"</h4>" +
+                   "Name: " + name + "<br />" +
+                   "Operator: " + operator +
+                   "</div>";
+        return html;
+        };
+        
+
+      function initmap() {
+        // set up the map
+        map = new L.Map('map');
+
+
+        // create the tile layer with correct attribution
+        var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+        var osm = new L.TileLayer(osmUrl, {minZoom: 3, maxZoom: 19, attribution: osmAttrib, opacity:0.5});		
+
+        var cloudUrl = 'http://cloudmap.mapwarper.net/tiles/tiles.py/cloud/{z}/{x}/{y}.png';
+        var cloud = new L.TileLayer(cloudUrl, {tms:false,minZoom: 3, maxZoom: 19, attribution: osmAttrib});
+
+        var xrayUrl = 'http://cloudmap.mapwarper.net/tiles/tiles.py/xray-cloud/{z}/{x}/{y}.png';
+        var xray = new L.TileLayer(xrayUrl, {tms:false,minZoom: 3, maxZoom: 19, attribution: osmAttrib});
+
+        map.setView(new L.LatLng(39.8, -30.6),3);
+        map.addLayer(osm);
+        map.addLayer(cloud);
+
+        var overlayMaps = {
+          "Cloud Map": cloud,
+          "Cloud XRay Map": xray
+        };
+        var basemaps = {
+          "OSM": osm
+        }
+        L.control.layers(basemaps, overlayMaps,{collapsed:false}).addTo(map);
+
+        var hash = new L.Hash(map);
+
+        var utfGrid = new L.UtfGrid('http://cloudmap.mapwarper.net/tiles/tiles.py/cloud_utfgrid/{z}/{x}/{y}.json?callback={cb}',
+         {resolution: 4}
+        );
+
+        utfGrid.on('click', function (e) {
+            //click events are fired with e.data==null if an area with no hit is clicked
+            if (e.data) {
+              var popup = L.popup()
+              .setLatLng(e.latlng)
+              .setContent(popupHtml(e.data))
+              .openOn(map);
+            }
+        });
+        //utfGrid.on('mouseover', function (e) {
+            //console.log('hover: ', e.data);
+            //console.log(popupHtml(e.data));
+            //});
+        //utfGrid.on('mousemove', function (e) {
+            //console.log('move: ' , e.data);
+            //});
+        //utfGrid.on('mouseout', function (e) {
+            //console.log('unhover: ' , e.data);
+            //});
+
+map.addLayer(utfGrid);
+}
 
 
 </script>
-
+</head>
 <body onload="initmap();">
   <div id="map"></div>
 </body>
