@@ -5,16 +5,38 @@
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script src="js/leaflet-hash.js"></script>
     <script src="js/leaflet.utfgrid.js"></script>
-    
+
     <style>
-      body{margin:0px;}
-      #map { height:100%; }
+      body{
+        font: 12px/1.5 "Helvetica Neue",Arial,Helvetica,sans-serif;
+        margin:0px;
+      }
+      #map { height:100%; width:70% }
+      #sidebar {
+        float:right;
+        height:100%;
+        width:30%;}
+      #sidebar-content {
+        padding-left: 10px;
+      }
+      #sidebar-content h1{ margin-top: 0px}
+      #sidebar-content ul {
+        list-style: none;
+        padding-left: 10px;
+      }
+
+      #sidebar-content img.key {
+        padding-right: 10px;
+        height:25px
+      }
+
+
     </style>
-    
+
     <script type="text/javascript">
 
       var map;
-      
+
       var layerDefs = {
         "towers": "Telecoms Tower or Mast",
         "mast": "Telecoms Tower or Mast",
@@ -27,83 +49,108 @@
         "tele_office": "Telecoms Office",
         "tele_office_scaled": "Telecoms Office"
       }
-        
-        //makes text from utfgrid data 
-      function popupHtml(data){
-        var layerName = layerDefs[data.layer_id];
-        var name = data.name || "unknown";
-        var operator = data.operator || "unknown";
-        var html = "<div class='popup'><h4>"+layerName+"</h4>" +
-                   "Name: " + name + "<br />" +
-                   "Operator: " + operator +
-                   "</div>";
-        return html;
-        };
-        
 
-      function initmap() {
-        // set up the map
-        map = new L.Map('map');
+//makes text from utfgrid data 
+function popupHtml(data){
+  var layerName = layerDefs[data.layer_id];
+  var name = data.name || "unknown";
+  var operator = data.operator || "unknown";
+  var html = "<div class='popup'><h4>"+layerName+"</h4>" +
+    "Name: " + name + "<br />" +
+    "Operator: " + operator +
+    "</div>";
+  return html;
+};
 
 
-        // create the tile layer with correct attribution
-        var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-        var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
-        var osm = new L.TileLayer(osmUrl, {minZoom: 3, maxZoom: 19, attribution: osmAttrib, opacity:0.5});		
+function initmap() {
+  // set up the map
+  map = new L.Map('map');
 
-        var cloudUrl = 'http://cloudmap.mapwarper.net/tiles/tiles.py/cloud/{z}/{x}/{y}.png';
-        var cloud = new L.TileLayer(cloudUrl, {tms:false,minZoom: 3, maxZoom: 19, attribution: osmAttrib});
 
-        var xrayUrl = 'http://cloudmap.mapwarper.net/tiles/tiles.py/xray-cloud/{z}/{x}/{y}.png';
-        var xray = new L.TileLayer(xrayUrl, {tms:false,minZoom: 3, maxZoom: 19, attribution: osmAttrib});
+  // create the tile layer with correct attribution
+  var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+  var osm = new L.TileLayer(osmUrl, {minZoom: 3, maxZoom: 19, attribution: osmAttrib, opacity:0.5});		
 
-        map.setView(new L.LatLng(39.8, -30.6),3);
-        map.addLayer(osm);
-        map.addLayer(cloud);
+  var cloudUrl = 'http://cloudmap.mapwarper.net/tiles/tiles.py/cloud/{z}/{x}/{y}.png';
+  var cloud = new L.TileLayer(cloudUrl, {tms:false,minZoom: 3, maxZoom: 19, attribution: osmAttrib});
 
-        var overlayMaps = {
-          "Cloud Map": cloud,
-          "Cloud XRay Map": xray
-        };
-        var basemaps = {
-          "OSM": osm
-        }
-        L.control.layers(basemaps, overlayMaps,{collapsed:false}).addTo(map);
+  var xrayUrl = 'http://cloudmap.mapwarper.net/tiles/tiles.py/xray-cloud/{z}/{x}/{y}.png';
+  var xray = new L.TileLayer(xrayUrl, {tms:false,minZoom: 3, maxZoom: 19, attribution: osmAttrib});
 
-        var hash = new L.Hash(map);
+  map.setView(new L.LatLng(39.8, -30.6),3);
+  map.addLayer(osm);
+  map.addLayer(cloud);
 
-        var utfGrid = new L.UtfGrid('http://cloudmap.mapwarper.net/tiles/tiles.py/cloud_utfgrid/{z}/{x}/{y}.json?callback={cb}',
-         {resolution: 4}
-        );
+  var overlayMaps = {
+    "Cloud Map": cloud,
+    "Cloud XRay Map": xray
+  };
+  var basemaps = {
+    "OSM": osm
+  }
+  L.control.layers(basemaps, overlayMaps,{collapsed:false}).addTo(map);
 
-        utfGrid.on('click', function (e) {
-            //click events are fired with e.data==null if an area with no hit is clicked
-            if (e.data) {
-              var popup = L.popup()
-              .setLatLng(e.latlng)
-              .setContent(popupHtml(e.data))
-              .openOn(map);
-            }
-        });
-        //utfGrid.on('mouseover', function (e) {
-            //console.log('hover: ', e.data);
-            //console.log(popupHtml(e.data));
-            //});
-        //utfGrid.on('mousemove', function (e) {
-            //console.log('move: ' , e.data);
-            //});
-        //utfGrid.on('mouseout', function (e) {
-            //console.log('unhover: ' , e.data);
-            //});
+  var hash = new L.Hash(map);
 
-map.addLayer(utfGrid);
+  var utfGrid = new L.UtfGrid('http://cloudmap.mapwarper.net/tiles/tiles.py/cloud_utfgrid/{z}/{x}/{y}.json?callback={cb}',
+      {resolution: 4}
+      );
+
+  utfGrid.on('click', function (e) {
+      //click events are fired with e.data==null if an area with no hit is clicked
+      if (e.data) {
+        var popup = L.popup()
+          .setLatLng(e.latlng)
+          .setContent(popupHtml(e.data))
+          .openOn(map);
+      }
+      });
+      //utfGrid.on('mouseover', function (e) {
+      //console.log('hover: ', e.data);
+      //console.log(popupHtml(e.data));
+      //});
+      //utfGrid.on('mousemove', function (e) {
+      //console.log('move: ' , e.data);
+      //});
+      //utfGrid.on('mouseout', function (e) {
+      //console.log('unhover: ' , e.data);
+      //});
+
+  map.addLayer(utfGrid);
 }
 
 
 </script>
 </head>
 <body onload="initmap();">
-  <div id="map"></div>
+  <div id="container">
+
+    <div id="sidebar">
+      <div id="sidebar-content">
+        <h1>New Cloud Atlas</h1>
+        <h2>About</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+        <h2>Key</h2>
+        <p>
+        <ul>
+          <li><img class="key" src="images/warehouse-24.png"><img class="key" src="images/data_centre_swatch.png">Data Centre</li>
+          <li><img class="key" src="images/warehouse-24.png"><img class="key" src="images/tele_office_swatch.png">Telecoms Office</li>
+          <li><img class="key" src="images/commercial-24.png"><img class="key" src="images/tele_office_swatch.png">Telephone Exchange</li>
+          <li><img class="key" src="images/mast-communications-18.svg">Telecoms Tower / Mast</li>
+          <li><img class="key" src="images/submarine_cable.png">Submarine Cable</li>
+          <li><img class="key" src="images/telephone_line.png">Telephone Line</li>
+          <li><img class="key" src="images/telephone_pole.png">Telephone Pole</li>
+          <li><img class="key" src="images/manhole.png">Manhole Cover</li>
+          <li><img class="key" src="images/cabinet.25.png">Street Cabinet</li>
+        </ul>
+        </p>
+      </div>
+    </div>
+
+    <div id="map"></div>
+  </div>
 </body>
 
 </html>
