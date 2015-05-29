@@ -77,6 +77,9 @@
       var cloudUrl = 'http://cloudmap.mapwarper.net/tiles/tiles.py/cloud/{z}/{x}/{y}.png';
       var cloud = new L.TileLayer(cloudUrl, {tms:false,minZoom: 3, maxZoom: 19, attribution: osmAttrib});
       
+      var normcloudUrl = 'http://cloudmap.mapwarper.net/tiles/tiles.py/normal-cloud/{z}/{x}/{y}.png';
+      var normcloud = new L.TileLayer(normcloudUrl, {tms:false,minZoom: 3, maxZoom: 19, attribution: osmAttrib});
+
       var xrayUrl = 'http://cloudmap.mapwarper.net/tiles/tiles.py/xray-cloud/{z}/{x}/{y}.png';
       var xray = new L.TileLayer(xrayUrl, {tms:false,minZoom: 3, maxZoom: 19, attribution: osmAttrib});
       
@@ -85,11 +88,12 @@
       map.addLayer(cloud);
       
       var overlayMaps = {
-      "Cloud Map": cloud,
-      "Cloud XRay Map": xray
+        "New Cloud Atlas": cloud,
+        "Basic Cloud": normcloud,
+        "Cloud XRay": xray
       };
       var basemaps = {
-      "OSM": osm
+        "OpenStreetMap": osm
       }
       L.control.layers(basemaps, overlayMaps,{collapsed:false}).addTo(map);
       
