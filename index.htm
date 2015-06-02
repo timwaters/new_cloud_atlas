@@ -38,6 +38,8 @@
     <script type="text/javascript">
       var map;
       
+      var utf;
+      
       var layerDefs = {
         "towers": "Telecoms Tower or Mast",
         "mast": "Telecoms Tower or Mast",
@@ -85,12 +87,11 @@
       
       map.setView(new L.LatLng(39.8, -30.6),3);
       map.addLayer(osm);
-      map.addLayer(cloud);
+      map.addLayer(normcloud);
       
       var overlayMaps = {
-        "New Cloud Atlas": cloud,
-        "Basic Cloud": normcloud,
-        "Cloud XRay": xray
+        "New Cloud Atlas": normcloud,
+        "Cloud X-Ray": xray
       };
       var basemaps = {
         "OpenStreetMap": osm
@@ -99,10 +100,10 @@
       
       var hash = new L.Hash(map);
       
-      var utfGrid = new L.UtfGrid('http://cloudmap.mapwarper.net/tiles/tiles.py/cloud_utfgrid/{z}/{x}/{y}.json?callback={cb}',
+      var utfGrid = new L.UtfGrid('http://cloudmap.mapwarper.net/tiles/tiles.py/normal_cloud_utfgrid/{z}/{x}/{y}.json?callback={cb}',
       {resolution: 4}
       );
-      
+      utf = utfGrid;
       utfGrid.on('click', function (e) {
       //click events are fired with e.data==null if an area with no hit is clicked
       if (e.data) {
