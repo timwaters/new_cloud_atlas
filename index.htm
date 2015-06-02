@@ -38,8 +38,7 @@
     <script type="text/javascript">
       var map;
       
-      var utf;
-      
+
       var layerDefs = {
         "towers": "Telecoms Tower or Mast",
         "mast": "Telecoms Tower or Mast",
@@ -86,6 +85,8 @@
       var xray = new L.TileLayer(xrayUrl, {tms:false,minZoom: 3, maxZoom: 19, attribution: osmAttrib});
       
       map.setView(new L.LatLng(39.8, -30.6),3);
+      
+      
       map.addLayer(osm);
       map.addLayer(normcloud);
       
@@ -103,7 +104,7 @@
       var utfGrid = new L.UtfGrid('http://cloudmap.mapwarper.net/tiles/tiles.py/normal_cloud_utfgrid/{z}/{x}/{y}.json?callback={cb}',
       {resolution: 4}
       );
-      utf = utfGrid;
+      
       utfGrid.on('click', function (e) {
       //click events are fired with e.data==null if an area with no hit is clicked
       if (e.data) {
@@ -113,16 +114,7 @@
           .openOn(map);
       }
       });
-      //utfGrid.on('mouseover', function (e) {
-      //console.log('hover: ', e.data);
-      //console.log(popupHtml(e.data));
-      //});
-      //utfGrid.on('mousemove', function (e) {
-      //console.log('move: ' , e.data);
-      //});
-      //utfGrid.on('mouseout', function (e) {
-      //console.log('unhover: ' , e.data);
-      //});
+ 
       
       map.addLayer(utfGrid);
       }
