@@ -1,130 +1,34 @@
 <html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+    <meta charset='utf-8'>
+    <title>iD</title>
+    <link rel='stylesheet' href='iD.css'>
+    <!--[if !IE]>-->
+    <script src='js/iD.js'></script>
+    <script src='js/presets.js'></script>
+    <script src='js/imagery.js'></script>
 
-<head>
-   <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-        <meta charset='utf-8'>
-        <title>iD</title>
-        <link rel='stylesheet' href='iD.css'>
-        <!--[if !IE]>-->
-        <script src='js/iD.js'></script>
-        <script src='js/presets.js'></script>
-        <script src='js/imagery.js'></script>
-        <!--<![endif]-->
-    </head>
-    <body>
-        <div id='id-container'></div>
-        <script>
-        if (typeof iD == 'undefined') {
-                document.getElementById('id-container').innerHTML = 'Sorry, Internet Explorer is not currently supported. Please use Potlatch 2 to edit the map.';
-                document.getElementById('id-container').className = 'unsupported';
-            } else {
+    <script src='js/nca_presets.js'></script>
 
-        
-//categories
-iD.data.presets.defaults["line"] = ["category-water-line","power/line", "telecoms/telephone_line"];
-
-//presets
-iD.data.presets.presets["telecoms/telephone_line"] = {
-  "name": "Telephone Line",
-  "terms": [
-    "phone line",
-    "line"
-  ],
-  "geometry" : ["line"],
-"icon": "power-line", 
-"fields": [
-  "location",
-  "operator",
-  "ref",
-  "cables",
-  "telecom:medium"
-],
-"tags": {
-  "communication": "line"
-  }
-}
-
-iD.data.presets.presets["telecoms/underground_cable"] = {
-  "name": "Underground Cable",
-  "terms": ["fibre optic"],
-  "geometry": ["line"],
-  "fields" :[
-    "operator",
-    "ref",
-    "cables",
-    "telecom:medium"
-  ],
-  "tags":{
-    "location": "undergound",
-    "communication":"line"
-  }
-}
-
-//fields
-iD.data.presets.fields["cables"] = {
-   "key": "cables",
-   "type": "number",
-   "label": "Number of Cables",
-   "placeholder": "1, 2, 3..."
-}
-
-iD.data.presets.fields["telecom:medium"] = {
-   "key": "telecom:medium",
-   "label": "Medium",
-   "type": "combo",
-   "placeholder": "Copper, Fibre Optic...",
-   "strings": {
-     "options": {
-      "copper":"Copper",
-      "fibre_optic": "Fibre Optic"
-     }
-   }
-   
-
-}
-iD.data.presets.fields["start_date"] = {
-                  "key": "start_date",
-                  "type": "radio",
-                  "options": [
-                      "before 2000",
-                      "2001",
-                      "2002",
-                      "2013",
-                      "after 2013"
-                  ],
-                  "label": "Start Date"
-                };
-
-                  // create logging_road and plantation_road preset
-                iD.data.presets.presets["logging_road"] = {
-                  "name": "Logging Road",
-                  "geometry": ["line"],
-                  "tags": {
-                    "highway":"track",
-                    "access":"forestry"
-                  },
-                  "fields": [
-                    "start_date"
-                  ]
-                };
-
-                iD.data.presets.presets["plantation_road"] = {
-                  "name": "Plantation Road",
-                  "geometry": ["line"],
-                  "tags": {
-                    "highway":"track",
-                    "access":"agricultural"
-                  },
-                };          
+    <!--<![endif]-->
+  </head>
+  <body>
+    <div id='id-container'></div>
+    <script>
+      if (typeof iD == 'undefined') {
+              document.getElementById('id-container').innerHTML = 'Sorry, Internet Explorer is not currently supported. Please use Potlatch 2 to edit the map.';
+              document.getElementById('id-container').className = 'unsupported';
+          } else {
 
       var id = iD()
-                  .presets(iD.data.presets)
-                  .imagery(iD.data.imagery)
-                  .taginfo(iD.taginfo());
+              .presets(iD.data.presets)
+              .imagery(iD.data.imagery)
+              .taginfo(iD.taginfo());
 
-                d3.select('#id-container')
-                    .call(id.ui());
-        }    
-        </script>
-    </body>
+      d3.select('#id-container')
+                  .call(id.ui());
+     }
+    </script>
+  </body>
 </html>
