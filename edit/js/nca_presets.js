@@ -1,8 +1,16 @@
-//categories
-iD.data.presets.defaults["line"] = ["telecoms/telephone_line", "telecoms/underground_cable", "telecoms/submarine_cable", "power/line" ];
-iD.data.presets.defaults["point"] = ["telecoms/telephone_pole"];
-
-//presets
+// New Cloud Atlas iD custom presets
+//
+// Custom Defaults
+//
+iD.data.presets.defaults["line"] =   ["telecoms/telephone_line", "telecoms/underground_cable", "telecoms/submarine_cable", "power/line"];
+iD.data.presets.defaults["point"] =  ["data_center", "telephone_exchange", "telecoms/telephone_pole", "telecoms/street_cabinet",
+                                     "manhole", "mast", "tower", "communications_tower",  "office/telecommunication"];
+iD.data.presets.defaults["area"] =   ["data_center","telephone_exchange", "office/telecommunication", "tower", "communications_tower" ];
+iD.data.presets.defaults["vertex"] = ["telecoms/telephone_pole", "telecoms/street_cabinet",
+                                     "manhole", "mast", "antenna", "tower", "communications_tower", "telephone_exchange"];
+ //
+ // Custom Presets
+ //
 iD.data.presets.presets["telecoms/telephone_line"] = {
   "name": "Telephone Line",
   "terms": [
@@ -62,7 +70,7 @@ iD.data.presets.presets["telecoms/submarine_cable"] = {
 iD.data.presets.presets["telecoms/telephone_pole"] = {
   "name": "Telephone Pole",
   "terms": ["telegraph", "telephone", "pole"],
-  "geometry": ["point"],
+  "geometry": ["point","vertex"],
   "fields": [
     "operator",
     "ref",
@@ -74,10 +82,11 @@ iD.data.presets.presets["telecoms/telephone_pole"] = {
   }
 }
 
-iD.data.presets.presets["telecom/street_cabinet"] = {
-  "name": "Telecoms Street Cabinet",
+iD.data.presets.presets["telecoms/street_cabinet"] = {
+  "name": "Street Cabinet",
   "terms": ["box","broadband","telephone","metal","green"],
-  "geometry": ["point", "area"],
+  "geometry": ["point","vertex", "area"],
+  "icon": "square",
   "fields": [
     "operator",
     "street_cabinet",
@@ -98,7 +107,7 @@ iD.data.presets.presets["manhole"] = {
   "name": "Manhole Cover",
   "icon": "circle",
   "terms": ["manhole"],
-  "geometry": ["point"],
+  "geometry": ["point","vertex", "area"],
   "fields": [
     "label",
     "manhole",
@@ -113,7 +122,7 @@ iD.data.presets.presets["manhole"] = {
 iD.data.presets.presets["antenna"] = {
   "name": "Antenna",
   "terms": ["mast","tower","mobile", "cell","communication"],
-  "geometry": ["point"],
+  "geometry": ["point","vertex", "area"],
   "fields": [
     "mobile_phone",
     "operator",
@@ -129,7 +138,7 @@ iD.data.presets.presets["antenna"] = {
 iD.data.presets.presets["mast"] = {
   "name": "Mast",
   "terms": ["mast","tower", "antenna", "mobile", "cell", "communication"],
-  "geometry": ["point", "area"],
+  "geometry": ["point","vertex", "area"],
   "fields": [
     "mobile_phone",
     "radio",
@@ -151,7 +160,7 @@ iD.data.presets.presets["tower"] = {
   "name": "Telecoms Tower",
   "icon": "triangle",
   "terms": ["mast","tower", "antenna", "mobile", "cell", "communication"],
-  "geometry": ["point", "area"],
+  "geometry": ["point","vertex", "area"],
   "fields": [
     "mobile_phone",
     "radio",
@@ -172,7 +181,7 @@ iD.data.presets.presets["communications_tower"] = {
   "name": "Large Communications Tower",
   "icon": "triangle",
   "terms": ["mast","tower", "antenna", "mobile", "cell", "communication"],
-  "geometry": ["point", "area"],
+  "geometry": ["point","vertex", "area"],
   "fields": [
     "mobile_phone",
     "radio",
@@ -188,14 +197,64 @@ iD.data.presets.presets["communications_tower"] = {
     "tower:type": "communicaton"
   }
 }
+iD.data.presets.presets["telephone_exchange"] = {
+  "name": "Telephone Exchanage / Central Office",
+  "terms": ["data", "data centre", "center", "centre", "telecom", "telephone"],
+  "icon": "commercial",
+  "geometry": ["point","vertex", "area"],
+  "fields": [
+    "name",
+    "operator",
+    "address",
+    "building"
+  ],
+  "tags": {
+    "telecom": "central_office",
+    "building": "central_office"
+  }
+}
 
-//telephone exchange
+iD.data.presets.presets["data_center"] = {
+  "name": "Data Center",
+  "terms": ["data", "data centre", "center", "centre"],
+  "icon": "warehouse",
+  "geometry": ["point","area"],
+  "fields": [
+    "name",
+    "operator",
+    "address",
+    "building",
+    "note"
+  ],
+  "tags": {
+    "telecom": "data_center",
+    "building": "data_center"
+  }
+}
 
-//telecoms office
+iD.data.presets.presets["office/telecommunication"] =  {
+    "icon": "warehouse",
+    "fields": [
+        "name",
+        "operator",
+        "address",
+        "building_area"
+    ],
+    "geometry": [
+        "point",
+        "vertex",
+        "area"
+    ],
+    "tags": {
+        "office": "telecommunication"
+    },
+    "terms": ["telephone", "center", "centre"],
+    "name": "Telecom Office"
+},
 
-//data centres
-
-
+//
+// Custom Fields
+//
 iD.data.presets.fields["height"] = {
   "key": "height",
   "type": "text",
@@ -347,40 +406,4 @@ iD.data.presets.fields["telecom:medium"] = {
       "fibre_optic": "Fibre Optic"
     }
   }
-
-
 }
-iD.data.presets.fields["start_date"] = {
-  "key": "start_date",
-  "type": "radio",
-  "options": [
-    "before 2000",
-    "2001",
-    "2002",
-    "2013",
-    "after 2013"
-  ],
-  "label": "Start Date"
-};
-
-// create logging_road and plantation_road preset
-iD.data.presets.presets["logging_road"] = {
-  "name": "Logging Road",
-  "geometry": ["line"],
-  "tags": {
-    "highway": "track",
-    "access": "forestry"
-  },
-  "fields": [
-    "start_date"
-  ]
-};
-
-iD.data.presets.presets["plantation_road"] = {
-  "name": "Plantation Road",
-  "geometry": ["line"],
-  "tags": {
-    "highway": "track",
-    "access": "agricultural"
-  },
-};
