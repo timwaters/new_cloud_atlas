@@ -65,7 +65,7 @@
       map.setView(new L.LatLng(39.8, -30.6),3);
 
 
-      map.addLayer(mqMap);
+      map.addLayer(osm);
       map.addLayer(normcloud);
 
       var overlayMaps = {
@@ -73,7 +73,7 @@
         "Cloud X-Ray": xray
       };
       var basemaps = {
-        "OpenStreetMap": mqMap
+        "OpenStreetMap": osm
       }
       L.control.layers(basemaps, overlayMaps,{collapsed:false}).addTo(map);
 
