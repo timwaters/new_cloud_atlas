@@ -39,7 +39,7 @@
 
       function initmap() {
       // set up the map
-      map = new L.Map('map');
+      map = new L.Map('map', {minZoom:3});
 
       var mqMapUrl  = "http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png";
       var mqAttrib = 'Basemap Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">';
