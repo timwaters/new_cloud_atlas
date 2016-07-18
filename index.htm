@@ -6,6 +6,7 @@
     <script src="js/leaflet-hash.js"></script>
     <script src="js/leaflet.utfgrid.js"></script>
     <link rel='stylesheet' href='css/map.css'>
+       <link rel='stylesheet' href='css/nav.css'>
 
     <script type="text/javascript">
       var map;
@@ -101,13 +102,30 @@
     </script>
   </head>
   <body onload="initmap();">
+     <div id="nav-bar">
+       <div class="nav-header">
+         <a href="/">The New Cloud Atlas</a>
+       </div>
+       <div class="nav-links">
+       <ul>
+         <li>
+           <A class="nav-link" href="/">Map</A>
+         </li>
+        <li>
+          <A class="nav-link" href="/about.htm">About</A>
+        </li>
+        <li>
+          <A class="nav-link" href="/edit/">Contribute</A>
+        </li>
+       </ul>
+       </div>
+        
+    </div>
     <div id="container">
       <div id="sidebar">
         <div id="sidebar-content">
-          <h1>New Cloud Atlas</h1>
+          <br />
           <p>The New Cloud Atlas is a global effort to map each data place that makes up the cloud in an open and accountable way. We have set out to find and map each warehouse data centre, each internet exchange, each connecting cable and switch. Anything of any physical significance in the operation of the cloud should be observed is some way, and recorded for everyone to see and use.</p>
-          <h2>Read More: <a href="about.htm">About The New Cloud Atlas</a></h2>
-          <h2>Contribute: <a href="edit/index.htm">Edit the map</a></h2>
           <h2>Key</h2>
           <p>
           <ul>

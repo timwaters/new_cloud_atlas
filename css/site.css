@@ -2,12 +2,22 @@ body{
   font-family:  "Helvetica Neue",Arial,Helvetica,sans-serif;
   text-align: left;
   margin:0 auto;
-  width: 800px;
-  max-width: 96%;
+  margin-bottom: 10px;
 }
 h1,h2 {
   padding-top: 10px;
   padding-bottom: 10px;
   text-align: center;
   background-color: #BDDEFF;
+}
+
+#container {
+  margin-left:10px;
+  margin-right:10px; 
+  padding-bottom: 10px;
+}
+
+#container h1,h2{
+margin-left: -10px;
+margin-right: -10px;
 }
