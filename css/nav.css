@@ -9,6 +9,7 @@
     font: 16px/1.5 "Helvetica Neue",Arial,Helvetica,sans-serif;
 }
 
+
 /*
 #nav-bar:before,
 #nav-bar:after {
@@ -24,6 +25,7 @@
 #nav-bar ul {
   list-style: none;
   margin-top: 0px;
+  padding-left: 0px;
 }
 #nav-bar a {
   text-decoration: none;
@@ -79,4 +81,24 @@ padding: 5px;
 #container {
 top: 43px;
 position: relative;
+}
+
+.locked {
+
+  position: absolute !important;
+  bottom: 0;
+  width: 100%;
+}
+
+@media screen and (max-width: 500px) {
+#nav-bar {
+  height: 70px;
+}
+#container {
+  top: 70px;
+}
+.nav-links {
+  padding-top: 0px;
+}
+
 }

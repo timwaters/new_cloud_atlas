@@ -24,7 +24,8 @@ iD.data.presets.presets["telecoms/telephone_line"] = {
     "operator",
     "ref",
     "cables",
-    "telecom:medium"
+    "telecom:medium",
+    "note"
   ],
   "tags": {
     "communication": "line"
@@ -39,7 +40,8 @@ iD.data.presets.presets["telecoms/underground_cable"] = {
     "operator",
     "ref",
     "cables",
-    "telecom:medium"
+    "telecom:medium",
+    "note"
   ],
   "tags": {
     "location": "undergound",
@@ -56,7 +58,8 @@ iD.data.presets.presets["telecoms/submarine_cable"] = {
     "operator",
     "ref",
     "cables",
-    "telecom:medium"
+    "telecom:medium",
+    "note"
   ],
   "tags": {
     "location": "underwater",
@@ -95,7 +98,8 @@ iD.data.presets.presets["telecoms/street_cabinet"] = {
     "colour",
     "sound",
     "heat",
-    "texture"
+    "texture",
+    "note"
   ],
   "tags": {
     "man_made": "street_cabinet",
@@ -112,7 +116,9 @@ iD.data.presets.presets["manhole"] = {
     "label",
     "manhole",
     "operator",
-    "ref"
+    "colour",
+    "ref",
+    "note"
   ],
   "tags": {
     "manhole": "telecom"
@@ -128,7 +134,8 @@ iD.data.presets.presets["antenna"] = {
     "operator",
     "ref",
     "location",
-    "height"
+    "height",
+    "note"
   ],
   "tags": {
     "telecom": "antenna"
@@ -144,10 +151,12 @@ iD.data.presets.presets["mast"] = {
     "radio",
     "microwave",
     "television",
+    "wifi",
     "operator",
     "ref",
     "location",
-    "height"
+    "height",
+    "note"
   ],
   "tags": {
     "man_made": "mast",
@@ -166,10 +175,12 @@ iD.data.presets.presets["tower"] = {
     "radio",
     "microwave",
     "television",
+    "wifi",
     "operator",
     "ref",
     "location",
-    "height"
+    "height",
+    "note"
   ],
   "tags": {
     "man_made": "tower",
@@ -187,10 +198,12 @@ iD.data.presets.presets["communications_tower"] = {
     "radio",
     "microwave",
     "television",
+    "wifi",
     "operator",
     "ref",
     "location",
-    "height"
+    "height",
+    "note"
   ],
   "tags": {
     "man_made": "communications_tower",
@@ -206,7 +219,8 @@ iD.data.presets.presets["telephone_exchange"] = {
     "name",
     "operator",
     "address",
-    "building"
+    "building",
+    "note"
   ],
   "tags": {
     "telecom": "central_office",
@@ -238,7 +252,8 @@ iD.data.presets.presets["office/telecommunication"] =  {
         "name",
         "operator",
         "address",
-        "building_area"
+        "building_area",
+        "note"
     ],
     "geometry": [
         "point",
@@ -284,11 +299,17 @@ iD.data.presets.fields["television"] = {
   "label": "Television"
 }
 
+iD.data.presets.fields["wifi"] = {
+  "key": "communicaton:wifi",
+  "type": "check",
+  "label": "WiFi"
+}
+
 iD.data.presets.fields["manhole"] = {
   "key": "manhole",
   "label": "Manhole Type",
   "type": "combo",
-  "placeholder": "",
+  "placeholder": "unknown",
   "strings": {
     "options": {
       "telecom": "Telecoms",
@@ -296,10 +317,16 @@ iD.data.presets.fields["manhole"] = {
       "water": "Water",
       "sewer": "Sewer",
       "gas"  : "Gas",
-      "power" : "Power"
+      "power" : "Power",
+      "traffic": "Traffic",
+      "unknown": "unknown"
     }
   }
 }
+
+
+
+
 
 iD.data.presets.fields["label"] = {
     "key": "label",
